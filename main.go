@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
-	"github.com/NiciiA/AuthRest/routes"
+	"github.com/NiciiA/AuthRest/application"
 )
 
 /**
