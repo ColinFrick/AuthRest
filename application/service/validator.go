@@ -32,7 +32,7 @@ func PhoneNumberValidator(n string) (matched bool, err error) {
 }
 
 func NumberURIValidator(n string) (matched bool, err error) {
-	reg, err := regexp.MatchString("^[0-9]$", n)
+	reg, err := regexp.MatchString("^[0-9]{1,2}$", n)
 	if !reg || err != nil {
 		return false, errors.New("not a valid number")
 	}
@@ -74,6 +74,19 @@ func NameValidator(n string) (matched bool, err error) {
 	reg, err := regexp.MatchString("^[\u00C0-\u017Fa-zA-Z]{2,64}$", n)
 	if !reg || err != nil {
 		return false, errors.New("not a valid name")
+	}
+
+	return true, nil
+}
+
+func LanguageValidator(n string) (matched bool, err error) {
+	if n == "" {
+		return false, errors.New("empty string")
+	}
+
+	reg, err := regexp.MatchString("de|en", n)
+	if !reg || err != nil {
+		return false, errors.New("not a valid language")
 	}
 
 	return true, nil

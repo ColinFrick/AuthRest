@@ -2,6 +2,7 @@ package Dao
 
 import (
 	"github.com/go-redis/redis"
+	"github.com/NiciiA/AuthRest/config"
 )
 
 var client *redis.Client
@@ -12,8 +13,8 @@ func GetRedisClient() *redis.Client {
 
 func init() {
 	client = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     Config.RedisConnection,
+		Password: Config.RedisPassword, // no password set
+		DB:       Config.RedisDB,  // use default DB
 	})
 }

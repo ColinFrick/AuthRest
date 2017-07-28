@@ -5,6 +5,7 @@ import (
 	"github.com/NiciiA/AuthRest/application/handler/middleware"
 	"github.com/NiciiA/AuthRest/application/handler/users"
 	"net/http"
+	"github.com/NiciiA/AuthRest/application/handler/users/settings"
 )
 
 // list of routes
@@ -50,6 +51,18 @@ var RouteList = Routes{
 		"PUT",
 		"/api/v1.0/users/{id:[a-f0-9]{24}}",
 		Middleware.LoggedinMiddleware(http.HandlerFunc(UserHandler.Update)),
+	},
+	Route{
+		"SettingsSingle",
+		"GET",
+		"/api/v1.0/users/{id:[a-f0-9]{24}}/settings",
+		Middleware.LoggedinMiddleware(http.HandlerFunc(UserSettingsHandler.Single)),
+	},
+	Route{
+		"SettingsUpdate",
+		"PUT",
+		"/api/v1.0/users/{id:[a-f0-9]{24}}/settings",
+		Middleware.LoggedinMiddleware(http.HandlerFunc(UserSettingsHandler.Update)),
 	},
 	/*
 	Route{

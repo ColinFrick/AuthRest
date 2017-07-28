@@ -2,6 +2,7 @@ package Dao
 
 import (
 	"gopkg.in/mgo.v2"
+	"github.com/NiciiA/AuthRest/config"
 )
 
 var session *mgo.Session
@@ -10,7 +11,7 @@ var session *mgo.Session
 	GetDatabase// projectaton
  */
 func GetDatabase(s *mgo.Session) *mgo.Database {
-	return s.DB("shelf_users")
+	return s.DB(Config.MongoDB)
 }
 
 /**
@@ -28,10 +29,17 @@ func GetUsersCollection() *mgo.Collection {
 }
 
 /**
+	Find the cart collection
+ */
+func GetSettingsCollection() *mgo.Collection {
+	return GetCollection(session, "settings")
+}
+
+/**
 	init
  */
 func init() {
-	session, _ = mgo.Dial("mongodb://localhost")
+	session, _ = mgo.Dial(Config.MongoConnection)
 	//GetItemCollection().Insert(Item{ID: bson.NewObjectId(), Barcode: "abc", Name: "Kekse", Image: "", Price: 2.50})
 	//GetItemCollection().Insert(Item{ID: bson.NewObjectId(), Barcode: "abc2", Name: "Keksse", Image: "", Price: 2.50})
 	//GetItemCollection().Insert(Item{ID: bson.NewObjectId(), Barcode: "abc3", Name: "Kekssse", Image: "", Price: 2.45})

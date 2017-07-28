@@ -46,7 +46,7 @@ func List(w http.ResponseWriter, r *http.Request) {
 	cL := Domain.Users{}
 	oR, _ := strconv.Atoi(o)
 	lR, _ := strconv.Atoi(l)
-	Dao.GetUsersCollection().Find(bson.M{}).Skip(oR).Limit(lR).All(cL)
+	Dao.GetUsersCollection().Find(bson.M{}).Skip(oR).Limit(lR).All(&cL)
 
 	json.NewEncoder(w).Encode(cL)
 	w.WriteHeader(200)

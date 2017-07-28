@@ -9,6 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"strconv"
 	"fmt"
+	"github.com/NiciiA/AuthRest/config"
 )
 
 type RegisterBody struct {
@@ -61,6 +62,12 @@ func HandleSignup(w http.ResponseWriter, r *http.Request) {
 	u.Disabled = false
 
 	Dao.GetUsersCollection().Insert(&u)
+
+	s := Domain.Settings{}
+	s.User = u.ID
+	s.Language = Config.DefaultLanguage
+
+	Dao.GetSettingsCollection().Insert(&s)
 
 	randomDigits := Service.Random(100000, 999999)
 	er := Dao.GetRedisClient().Set(strconv.Itoa(randomDigits), u.ID.Hex(), 0).Err()

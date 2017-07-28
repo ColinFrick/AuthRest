@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"github.com/NiciiA/AuthRest/application"
+	"github.com/NiciiA/AuthRest/config"
 )
 
 /**
@@ -12,5 +13,5 @@ import (
 func main() {
 	router := Routes.NewRouter(Routes.RouteList)
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(Config.ApplicationPort, router))
 }
