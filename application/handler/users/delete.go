@@ -21,7 +21,10 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	t, _ := Service.AuthorizationHeaderValidator(ak)
 	c := JWT.TokenClaims(t)
 	if c["role"].(string) == "administrator" || id == c["id"].(string) {
-		Dao.GetUsersCollection().Remove(bson.M{"_id": bson.ObjectIdHex(id)})
+		u := Domain.User{}
+		Dao.GetUsersCollection().Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&u)
+		u.Disabled = true
+		Dao.GetUsersCollection().Update(bson.M{"_id": bson.ObjectIdHex(id)}, u)
 		w.WriteHeader(204)
 		return
 	} else {

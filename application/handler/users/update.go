@@ -9,6 +9,7 @@ import (
 	"github.com/NiciiA/AuthRest/application/dao"
 	"gopkg.in/mgo.v2/bson"
 	"encoding/json"
+	"time"
 )
 
 func Update(w http.ResponseWriter, r *http.Request) {
@@ -52,16 +53,18 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	t, _ := Service.AuthorizationHeaderValidator(ak)
 	c := JWT.TokenClaims(t)
 	if c["role"].(string) == "administrator" || id == c["id"].(string) {
+		u := Domain.User{}
+		Dao.GetUsersCollection().Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&u)
 		if c["role"].(string) == "customer" && b.Role == "administrator" {
-			u := Domain.User{}
-			Dao.GetUsersCollection().Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&u)
 			if u.Disabled || u.Role != "administrator" {
 				w.WriteHeader(403)
 				json.NewEncoder(w).Encode(Domain.JsonError{403, 7})
 				return
 			}
 		}
-		b.ID = bson.ObjectIdHex(id)
+		b.ID = u.ID
+		b.CreatedDate = u.CreatedDate
+		b.UpdatedDate = time.Now()
 		Dao.GetUsersCollection().Update(bson.M{"_id": bson.ObjectIdHex(id)}, b)
 		json.NewEncoder(w).Encode(b)
 		w.WriteHeader(204)

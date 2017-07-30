@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"fmt"
 	"github.com/NiciiA/AuthRest/config"
+	"time"
 )
 
 type RegisterBody struct {
@@ -60,6 +61,8 @@ func HandleSignup(w http.ResponseWriter, r *http.Request) {
 	u.LastName = b.LastName
 	u.Role = "customer"
 	u.Disabled = false
+	u.CreatedDate = time.Now()
+	u.UpdatedDate = time.Now()
 
 	Dao.GetUsersCollection().Insert(&u)
 
