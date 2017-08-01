@@ -71,7 +71,7 @@ func NameValidator(n string) (matched bool, err error) {
 		return false, errors.New("empty string")
 	}
 
-	reg, err := regexp.MatchString("^[\u00C0-\u017Fa-zA-Z]{2,64}$", n)
+	reg, err := regexp.MatchString("^[\u00C0-\u017Fa-zA-Z ]{2,64}$", n)
 	if !reg || err != nil {
 		return false, errors.New("not a valid name")
 	}

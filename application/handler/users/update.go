@@ -10,6 +10,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"encoding/json"
 	"time"
+	"strings"
 )
 
 func Update(w http.ResponseWriter, r *http.Request) {
@@ -17,6 +18,9 @@ func Update(w http.ResponseWriter, r *http.Request) {
 
 	b := Domain.User{}
 	json.NewDecoder(r.Body).Decode(&b)
+
+	b.FirstName = strings.TrimSpace(b.FirstName)
+	b.LastName = strings.TrimSpace(b.LastName)
 
 	reg, err := Service.PhoneNumberValidator(b.PhoneNumber)
 	if !reg || err != nil {
