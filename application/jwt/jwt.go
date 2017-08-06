@@ -18,7 +18,7 @@ func CreateToken(u Domain.User) string {
 		"exp":  time.Now().AddDate(4, 0, 0).Unix(),
 	})
 	tokenString, _ := token.SignedString([]byte(Signed))
-	return tokenString;
+	return tokenString
 }
 
 func DecodeToken(t string) (jwtoken *jwt.Token, err error) {
